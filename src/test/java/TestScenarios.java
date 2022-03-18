@@ -1,6 +1,7 @@
 import io.restassured.http.ContentType;
 import org.json.simple.JSONObject;
-import org.testng.Assert;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.testng.annotations.Test;
 
 import java.io.*;
@@ -11,20 +12,28 @@ import static io.restassured.RestAssured.given;
 public class TestScenarios {
     //POST Successful
     @Test(priority = 1)
-    void registerUser_01() throws FileNotFoundException {
+    void registerUser_01() throws IOException, ParseException {
         File file = new File("/Users/vishalcb/IdeaProjects/SampleProject/src/main/resources/url.text");
         BufferedReader br = new BufferedReader(new FileReader(file));
-        String st = null;
+        String str = null;
         while (true) {
             try {
-                if ((st = br.readLine()) == null) break;
+                if ((str = br.readLine()) == null) break;
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            String path = "/Users/vishalcb/IdeaProjects/SampleProject/src/main/resources/Register.json";
+            JSONParser jsonParser = new JSONParser();
+            FileReader reader = new FileReader(path);
+            Object obj = jsonParser.parse(reader);
+            JSONObject obj1 = (JSONObject) obj;
+            String email = (String) obj1.get("email");
+            String password = (String) obj1.get("password");
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("email", "eve.holt@reqres.in");
-            jsonObject.put("password", "pistol");
-            baseURI = st; //getting URI from url.txt file
+            jsonObject.put("email", email);
+            jsonObject.put("password", password);
+
+            baseURI = str; //getting URI from url.txt file
             given().
                     header("Content-Type", "application/json").
                     body(jsonObject.toJSONString()).
@@ -39,7 +48,7 @@ public class TestScenarios {
 
     //POST Unsuccessful
     @Test(priority = 2)
-    public void registerUser_02() throws FileNotFoundException {
+    public void registerUser_02() throws IOException, ParseException {
         File file = new File("/Users/vishalcb/IdeaProjects/SampleProject/src/main/resources/url.text");
         BufferedReader br = new BufferedReader(new FileReader(file));
         String st = null;
@@ -50,8 +59,14 @@ public class TestScenarios {
                 e.printStackTrace();
             }
             baseURI = st; //getting URI from url.txt file
+            String path = "/Users/vishalcb/IdeaProjects/SampleProject/src/main/resources/Register.json";
+            JSONParser jsonParser = new JSONParser();
+            FileReader reader = new FileReader(path);
+            Object obj = jsonParser.parse(reader);
+            JSONObject obj1 = (JSONObject) obj;
+            String email = (String) obj1.get("email");
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("email", "eve.holt@reqres.in");
+            jsonObject.put("email", email);
             given().
                     header("Content-Type", "application/json").
                     body(jsonObject.toJSONString()).
@@ -65,7 +80,7 @@ public class TestScenarios {
     }
     //POST - Login Successful
     @Test(priority = 3)
-    public void loginUser_01() throws FileNotFoundException {
+    public void loginUser_01() throws IOException, ParseException {
         File file = new File("/Users/vishalcb/IdeaProjects/SampleProject/src/main/resources/url.text");
         BufferedReader br = new BufferedReader(new FileReader(file));
         String st = null;
@@ -76,9 +91,16 @@ public class TestScenarios {
                 e.printStackTrace();
             }
             baseURI = st; //getting URI from url.txt file
+            String path = "/Users/vishalcb/IdeaProjects/SampleProject/src/main/resources/Register.json";
+            JSONParser jsonParser = new JSONParser();
+            FileReader reader = new FileReader(path);
+            Object obj = jsonParser.parse(reader);
+            JSONObject obj1 = (JSONObject) obj;
+            String email = (String) obj1.get("email1");
+            String password = (String) obj1.get("password1");
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("email", "eve.holt@reqres.in");
-            jsonObject.put("password", "cityslicka");
+            jsonObject.put("email", email);
+            jsonObject.put("password", password);
             given().
                     header("Content-Type", "application/json").
                     contentType(ContentType.JSON).accept(ContentType.JSON).
@@ -93,7 +115,7 @@ public class TestScenarios {
     }
     //POST - Login Successful
     @Test(priority = 4)
-    public void loginUser_02() throws FileNotFoundException {
+    public void loginUser_02() throws IOException, ParseException {
         File file = new File("/Users/vishalcb/IdeaProjects/SampleProject/src/main/resources/url.text");
         BufferedReader br = new BufferedReader(new FileReader(file));
         String st = null;
@@ -104,8 +126,14 @@ public class TestScenarios {
                 e.printStackTrace();
             }
             baseURI = st; //getting URI from url.txt file
+            String path = "/Users/vishalcb/IdeaProjects/SampleProject/src/main/resources/Register.json";
+            JSONParser jsonParser = new JSONParser();
+            FileReader reader = new FileReader(path);
+            Object obj = jsonParser.parse(reader);
+            JSONObject obj1 = (JSONObject) obj;
+            String email = (String) obj1.get("email2");
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("email", "peter@klaven");
+            jsonObject.put("email", email);
             given().
                     header("Content-Type", "application/json").
                     contentType(ContentType.JSON).accept(ContentType.JSON).
@@ -120,8 +148,12 @@ public class TestScenarios {
     }
     //GET - List Users
     @Test(priority = 5)
-    public void userInformation() {
-        String url = "https://reqres.in/api/users?page=2";
+    public void userInformation() throws IOException,ParseException{
+        FileReader file = new FileReader("/Users/vishalcb/IdeaProjects/SampleProject/src/main/resources/Register.json");
+        JSONParser jsonParser = new JSONParser();
+        Object obj = jsonParser.parse(file);
+        JSONObject obj1 = (JSONObject) obj;
+        String url = (String) obj1.get("url");
         given().
                 get(url).
                 then().

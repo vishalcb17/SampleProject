@@ -1,4 +1,8 @@
 {
+    "url" : "https://reqres.in/api/users?page=2",
     "email": "eve.holt@reqres.in",
-    "password": "pistol"
+    "password": "pistol",
+    "email1" :"eve.holt@reqres.in",
+    "password1": "cityslicka",
+    "email2" : "peter@klaven"
 }
