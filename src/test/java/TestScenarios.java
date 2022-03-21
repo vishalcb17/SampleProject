@@ -14,7 +14,7 @@ public class TestScenarios extends GetURI, POJO, GetCredentials {
             baseURI = fetchURI();
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("email", fetchEmail());
-            jsonObject.put("password", fetchPassword();
+            jsonObject.put("password", fetchPassword());
             given().
                     header("Content-Type", "application/json").
                     body(jsonObject.toJSONString()).
@@ -49,7 +49,7 @@ public class TestScenarios extends GetURI, POJO, GetCredentials {
         baseURI = fetchURI();
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("email", fetchEmail());
-        jsonObject.put("password", fetchPassword();
+        jsonObject.put("password", fetchPassword());
         given().
                 header("Content-Type", "application/json").
                 body(jsonObject.toJSONString()).
@@ -70,7 +70,6 @@ public class TestScenarios extends GetURI, POJO, GetCredentials {
             int statusCode = jsonObject.getStatusCode();
             Assert.assertEquals(statusCode, 200);
         }
-    }
     //POST - Login Unsuccessful
     @Test(priority = 4)
     public void loginUser_02() throws IOException, ParseException {
